@@ -1,0 +1,188 @@
+/* http://meyerweb.com/eric/tools/css/reset/ 
+   v2.0 | 20110126
+   License: none (public domain)
+*/
+html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td,article,aside,canvas,details,embed,figure,figcaption,footer,header,hgroup,menu,nav,output,ruby,section,summary,time,mark,audio,video{margin:0;padding:0;border:0;font-size:100%;font:inherit;vertical-align:baseline;}/*HTML5display-roleresetforolderbrowsers*/article,aside,details,figcaption,figure,footer,header,hgroup,menu,nav,section{display:block;}body{line-height:1;}ol,ul{list-style:none;}blockquote,q{quotes:none;}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none;}table{border-collapse:collapse;border-spacing:0;}
+
+html, body, a, p, ul, li {
+	font-family: 'Raleway', sans-serif;
+	color: #BBB;
+	text-decoration: none;
+}
+
+h1 {
+	font-size: 40px;
+}
+
+.main {
+	width: 100%;
+}
+.main-header, .main-footer {
+	padding: 30px;
+	box-sizing: border-box;
+}
+.main-header {
+	height: 100px;
+	width: 100%;
+	position: absolute;
+	top: 0px;
+}
+.main-container, .next-container {
+	width: 100%;
+	position: absolute;
+	top: 100px;
+	bottom: 0px;
+	overflow: auto;
+}
+.main-footer {
+	height: 75px;
+	width: 100%;
+	position: absolute;
+	bottom: 0px;
+	background: #fff;
+}
+.hide {
+	display: none;
+}
+
+.add-button {
+	width: 40px;
+	height: 40px;
+	border: 2px solid #777;
+    box-sizing: border-box;
+	border-radius: 20px;
+	position: relative; 
+	float:right;
+	box-shadow: 3px 3px 3px rgba(0,0,0,.2);
+}
+.add-button a {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translateX(-50%) translateY(-50%);
+	color: #777;
+	text-decoration: none;
+	font-size: 35px;
+}
+
+.add-button .chosen {
+	
+}
+.main-container, .next-container {
+	padding: 20px 0 75px;
+}
+.main-header, .details {
+	border-bottom: 1px solid #bbb;
+}
+.main-footer {
+	border-top: 1px solid #bbb;
+}
+.main-footer ul {
+	text-align: center;
+}
+.main-footer ul li {
+	display: inline;
+	margin: 0 10px;
+}
+.main-footer ul li.actif {
+	display: inline;
+	margin: 0 10px;
+	text-decoration: underline;
+}
+
+
+
+/***********  TASK ITEMS **************/
+.task-list li {
+	padding: 20px 10px;
+	display: block;
+    vertical-align: middle;
+}
+
+.task {
+	display: flex;
+  	justify-content: space-between;
+}
+.task-heading {
+
+}
+.task-check {
+	width: 26px;
+	height: 20px;
+	display: inline-block;
+	background-repeat: no-repeat;
+    background-position: 0 0;
+	position: absolute;
+}
+#done .task-check {
+	background-image: url('./check.png');
+}
+#late .task-check {
+	background-image: url('./late.png');
+}
+#todo .task-check {
+	background-image: url('./uncheck.png');
+}
+.task-name {
+	font-size: 20px;
+	display: inline-block;
+	box-sizing: border-box;
+	padding-left: 40px;
+	/*border: 1px solid green;*/
+}
+.task-actions li {
+	padding: 0 10px;
+	display: inline-block;
+}
+
+#late .task-name {
+    text-decoration: line-through;
+    text-decoration-color: red;
+}
+#done .task-name {
+    text-decoration: line-through;
+    text-decoration-color: #ddd;
+}
+
+/***********  TASK DETAILS **************/
+.details {
+	margin-top: 10px;
+	/*border: 1px solid green;*/
+}
+.details p {
+	padding: 20px;
+}
+.desc {
+	font-size: 16px;
+}
+.time-info {
+	font-size: 14px;
+}
+
+.clear {
+	text-align: right;
+}
+.clear a {
+	padding: 25px;
+}
+.form {
+	width: 100%;
+	box-sizing: border-box;
+	padding: 20px 40px;
+}
+.input {
+	border: none;
+	width: 100%;
+	border-bottom: 1px solid #bbb;
+	font-family: 'Raleway', sans-serif;
+	font-size: 16px;
+	margin-bottom: 10px;
+	padding: 10px;
+}
+h3 {
+	padding-top: 20px;
+	margin-bottom: 10px;
+	font-weight: 600;
+	font-size: 20px;
+}
+
