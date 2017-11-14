@@ -20,33 +20,44 @@
 				<h1>MY TODOLIST</h1>
 			</div>
 			<div id="main-pane" class="main-container">
-				<ul class="task-list" id="todo">
-				</ul>
-				<ul class="task-list" id="done">
-				</ul>
-				<ul class="task-list" id="late">
-				</ul>
-				<ul class="hide">
-					<li class="task-item template">
-						<div class="task">
-							<span class="task-heading">
-								<a href="#check" class="task-check"></a>
-								<a href="#details" data-opened="false" class="task-name"></a>
-							</span>
-							<ul class="task-actions hide">
-								<li><a href="#">End Task</a></li>
-								<li><a href="#">Edit</a></li>
-								<li><a href="#" class="delete-task">Delete</a></li>
-							</ul>
-						</div>
-						<div class="details hide">
-							<p class="desc"></p>
-							<p class="time-info">
-								Started on: <span class="created"></span> - End time: <span class="completed"></span>
-							</p>
-						</div>
-					</li>
-				</ul>
+				<?php foreach ($results as $filter => $tasks): ?>
+					<ul class="task-list" id="<?php echo $filter ?>">
+					<?php foreach ($tasks as $key => $task): ?>
+						<li class="task-item" id="ti<?php echo $filter ?><?php echo $key; ?>">
+							<div class="task">
+								<span class="task-heading">
+									<a href="#check" class="task-check"></a>
+									<a href="#details" data-opened="false" data-toggle="ti<?php echo $filter ?><?php echo $key; ?>" class="task-name"><?php echo $task['task_title']; ?></a>
+								</span>
+								<ul class="task-actions hide">
+									<li><a href="#">End Task</a></li>
+									<li><a href="#">Edit</a></li>
+									<li><a href="#">Delete</a></li>
+								</ul>
+							</div>
+							<div class="details hide">
+								<p class="desc"><?php echo $task['task_description']; ?></p>
+								<p class="time-info">Started on: 
+									<span class="created">
+									<?php
+										$date = new DateTime('@'.$task['task_created_on']);
+										echo $date->format('d/m/Y H:i');
+									?>
+									</span>
+									<?php if ($task['task_ended_on']): ?>
+									, End time: <span class="completed">
+									<?php
+										$date = new DateTime('@'.$task['task_ended_on']);
+										echo $date->format('d/m/Y H:i');
+									?>
+									</span></p>
+									<?php endif ?>
+							</div>
+						</li>
+					<?php endforeach ?>
+					</ul>
+				<?php endforeach ?>
+
 			</div>
 			<div id="side-pane" class="next-container hide">
 				<div class="clear">
@@ -70,9 +81,9 @@
 			</div>
 			<div class="main-footer">
 				<ul id="main-foot">
-					<li><a href="index.php">All tasks</a></li>
-					<li><a href="index.php?filter=todo">Todo Tasks</a></li>
-					<li><a href="index.php?filter=done">Done Tasks</a></li>
+					<li<?php echo $filterBy==''?' class="actif"':'' ?>><a href="index.php">All tasks</a></li>
+					<li<?php echo $filterBy=='todo'?' class="actif"':'' ?>><a href="index.php?filter=todo">Todo Tasks</a></li>
+					<li<?php echo $filterBy=='done'?' class="actif"':'' ?>><a href="index.php?filter=done">Done Tasks</a></li>
 				</ul>
 				<ul id="side-foot" class="hide">
 					<li><a href="#save" id="saveTask">Save Task</a></li>
