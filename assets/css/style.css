@@ -54,6 +54,8 @@ h1 {
 	position: relative; 
 	float:right;
 	box-shadow: 3px 3px 3px rgba(0,0,0,.2);
+    animation-name: exampletwo;
+    animation-duration: 1s;
 }
 .add-button a {
 	position: absolute;
@@ -65,9 +67,39 @@ h1 {
 	font-size: 35px;
 }
 
-.add-button .chosen {
-	
+.add-button.chosen {
+    -ms-transform: rotate(45deg); /* IE 9 */
+    -webkit-transform: rotate(45deg); /* Safari */
+    transform: rotate(45deg);
+    animation-name: example;
+    animation-duration: 1s;
 }
+
+@keyframes exampletwo {
+    from {
+    	-ms-transform: rotate(45deg); /* IE 9 */
+	    -webkit-transform: rotate(45deg); /* Safari */
+	    transform: rotate(45deg);
+	}
+    to {
+	    -ms-transform: rotate(0deg); /* IE 9 */
+	    -webkit-transform: rotate(0deg); /* Safari */
+	    transform: rotate(0deg);
+    }
+}
+@keyframes example {
+    from {
+	    -ms-transform: rotate(0deg); /* IE 9 */
+	    -webkit-transform: rotate(0deg); /* Safari */
+	    transform: rotate(0deg);
+	}
+    to {
+    	-ms-transform: rotate(45deg); /* IE 9 */
+	    -webkit-transform: rotate(45deg); /* Safari */
+	    transform: rotate(45deg);
+    }
+}
+
 .main-container, .next-container {
 	padding: 20px 0 75px;
 }
@@ -76,6 +108,7 @@ h1 {
 }
 .main-footer {
 	border-top: 1px solid #bbb;
+	z-index: 9999;
 }
 .main-footer ul {
 	text-align: center;
@@ -115,13 +148,13 @@ h1 {
 	position: absolute;
 }
 #done .task-check {
-	background-image: url('./check.png');
+	background-image: url('../images/check.png');
 }
 #late .task-check {
-	background-image: url('./late.png');
+	background-image: url('../images/late.png');
 }
 #todo .task-check {
-	background-image: url('./uncheck.png');
+	background-image: url('../images/uncheck.png');
 }
 .task-name {
 	font-size: 20px;
