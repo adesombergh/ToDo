@@ -23,145 +23,43 @@ include_once 'core/request.php';
 				<h1>MY TODOLIST</h1>
 			</div>
 			<div id="main-pane" class="main-container">
-
-
-				<ul class="task-list" id="done">
-					<li class="task-item" id="ti1">
-						<div class="task">
-							<span class="task-heading">
-								<a href="#check" class="task-check"></a>
-								<a href="#details" data-opened="false" data-toggle="ti1" class="task-name">Take a shower</a>
-							</span>
-							<ul class="task-actions hide">
-								<li><a href="#">Edit</a></li>
-								<li><a href="#">Delete</a></li>
-							</ul>
-						</div>
-						<div class="details hide">
-							<p class="desc">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Labore quas asperiores.</p>
-							<p class="time-info">Started on: <span class="created">date</span>, End time: <span class="completed">date</span></p>
-						</div>
-					</li>
-					<li class="task-item" id="ti2">
-						<div class="task">
-							<span class="task-heading">
-								<a href="#check" class="task-check"></a>
-								<a href="#details" data-opened="false" data-toggle="ti2" class="task-name">Make my bag</a>
-							</span>
-							<ul class="task-actions hide">
-								<li><a href="#">Edit</a></li>
-								<li><a href="#">Delete</a></li>
-							</ul>
-						</div>
-						<div class="details hide">
-							<p class="desc">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Labore quas asperiores.</p>
-							<p class="time-info">Started on: <span class="created">date</span>, End time: <span class="completed">date</span></p>
-						</div>
-					</li>
-					<li class="task-item" id="ti3">
-						<div class="task">
-							<span class="task-heading">
-								<a href="#check" class="task-check"></a>
-								<a href="#details" data-opened="false" data-toggle="ti3" class="task-name">Take a breakfast</a>
-							</span>
-							<ul class="task-actions hide">
-								<li><a href="#">Edit</a></li>
-								<li><a href="#">Delete</a></li>
-							</ul>
-						</div>
-						<div class="details hide">
-							<p class="desc">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Labore quas asperiores.</p>
-							<p class="time-info">Started on: <span class="created">date</span>, End time: <span class="completed">date</span></p>
-						</div>
-					</li>
-				</ul>
-
-
-				<ul class="task-list" id="todo">
-					<li class="task-item" id="ti4">
-						<div class="task">
-							<span class="task-heading">
-								<a href="#check" class="task-check"></a>
-								<a href="#details" data-opened="false" data-toggle="ti4" class="task-name">Go to Bus Stop</a>
-							</span>
-							<ul class="task-actions hide">
-								<li><a href="#">Edit</a></li>
-								<li><a href="#">Delete</a></li>
-							</ul>
-						</div>
-						<div class="details hide">
-							<p class="desc">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Labore quas asperiores.</p>
-							<p class="time-info">Started on: <span class="created">date</span>, End time: <span class="completed">date</span></p>
-						</div>
-					</li>
-					<li class="task-item" id="ti5">
-						<div class="task">
-							<span class="task-heading">
-								<a href="#check" class="task-check"></a>
-								<a href="#details" data-opened="false" data-toggle="ti5" class="task-name">Be at becode at 9:00</a>
-							</span>
-							<ul class="task-actions hide">
-								<li><a href="#">Edit</a></li>
-								<li><a href="#">Delete</a></li>
-							</ul>
-						</div>
-						<div class="details hide">
-							<p class="desc">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Labore quas asperiores.</p>
-							<p class="time-info">Started on: <span class="created">date</span>, End time: <span class="completed">date</span></p>
-						</div>
-					</li class="task-item">
-					<li class="task-item" id="ti6">
-						<div class="task">
-							<span class="task-heading">
-								<a href="#check" class="task-check"></a>
-								<a href="#details" data-opened="false" data-toggle="ti6" class="task-name">Start Coding</a>
-							</span>
-							<ul class="task-actions hide">
-								<li><a href="#">Edit</a></li>
-								<li><a href="#">Delete</a></li>
-							</ul>
-						</div>
-						<div class="details hide">
-							<p class="desc">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Labore quas asperiores.</p>
-							<p class="time-info">Started on: <span class="created">date</span>, End time: <span class="completed">date</span></p>
-						</div>
-					</li>
-					<li class="task-item" id="ti7">
-						<div class="task">
-							<span class="task-heading">
-								<a href="#check" class="task-check"></a>
-								<a href="#details" data-opened="false" data-toggle="ti7" class="task-name">I need a real break</a>
-							</span>
-							<ul class="task-actions hide">
-								<li><a href="#">Edit</a></li>
-								<li><a href="#">Delete</a></li>
-							</ul>
-						</div>
-						<div class="details hide">
-							<p class="desc">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Labore quas asperiores.</p>
-							<p class="time-info">Started on: <span class="created">date</span>, End time: <span class="completed">date</span></p>
-						</div>
-					</li>
-				</ul>
-			
-				<ul class="task-list" id="late">
-					<li class="task-item" id="ti8">
-						<div class="task">
-							<span class="task-heading">
-								<a href="#check" class="task-check"></a>
-								<a href="#details" data-opened="false" data-toggle="ti8" class="task-name">Finish this app</a>
-							</span>
-							<ul class="task-actions hide">
-								<li><a href="#">Edit</a></li>
-								<li><a href="#">Delete</a></li>
-							</ul>
-						</div>
-						<div class="details hide">
-							<p class="desc">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Labore quas asperiores.</p>
-							<p class="time-info">Started on: <span class="created">date</span>, End time: <span class="completed">date</span></p>
-						</div>
-					</li>
-				</ul>
+				<?php foreach ($results as $filter => $tasks): ?>
+					<ul class="task-list" id="<?php echo $filter ?>">
+					<?php foreach ($tasks as $key => $task): ?>
+						<li class="task-item" id="ti<?php echo $filter ?><?php echo $key; ?>">
+							<div class="task">
+								<span class="task-heading">
+									<a href="#check" class="task-check"></a>
+									<a href="#details" data-opened="false" data-toggle="ti<?php echo $filter ?><?php echo $key; ?>" class="task-name"><?php echo $task['task_title']; ?></a>
+								</span>
+								<ul class="task-actions hide">
+									<li><a href="#">End Task</a></li>
+									<li><a href="#">Edit</a></li>
+									<li><a href="#">Delete</a></li>
+								</ul>
+							</div>
+							<div class="details hide">
+								<p class="desc"><?php echo $task['task_description']; ?></p>
+								<p class="time-info">Started on: 
+									<span class="created">
+									<?php
+										$date = new DateTime('@'.$task['task_created_on']);
+										echo $date->format('d/m/Y H:i');
+									?>
+									</span>
+									<?php if ($task['task_ended_on']): ?>
+									, End time: <span class="completed">
+									<?php
+										$date = new DateTime('@'.$task['task_ended_on']);
+										echo $date->format('d/m/Y H:i');
+									?>
+									</span></p>
+									<?php endif ?>
+							</div>
+						</li>
+					<?php endforeach ?>
+					</ul>
+				<?php endforeach ?>
 
 			</div>
 			<div id="side-pane" class="next-container hide">
@@ -169,30 +67,30 @@ include_once 'core/request.php';
 					<a href="#clear">Clear</a>
 				</div>
 				<div class="form">
-					<form action="">
+					<form action="" method="post" id="addform">
 						<h3>TITLE</h3>
 						<input class="input" id="title" name="title" type="text" placeholder="My todo title">
 						<h3>DESCRIPTION</h3>
 						<textarea class="input" id="description" name="description" rows="4" placeholder="My todo description"></textarea>
 						<h3>STARTED AT</h3>
 						<div id="startedat"></div>
-						<!-- <input class="input" id="started_at" name="started_at" type="text" placeholder="December 12, 2 pm"> -->
-						<h3>ENDED AT</h3>
-						<div id="endedat"></div>
-						<!-- <input class="input" id="started_at" name="started_at" type="text" placeholder="December 12, 2 pm"> -->
+						<input class="input" id="task_created_on" name="task_created_on" type="hidden">
+						<h3>DEADLINE</h3>
+						<div id="theend"></div>
+						<input class="input" id="task_end" name="task_end" type="hidden">
 					</form>
 				</div>
 
 			</div>
 			<div class="main-footer">
 				<ul id="main-foot">
-					<li class="actif"><a href="#all">All tasks</a></li>
-					<li><a href="#todo">Todo Tasks</a></li>
-					<li><a href="#done">Done Tasks</a></li>
+					<li<?php echo $filterBy==''?' class="actif"':'' ?>><a href="index.php">All tasks</a></li>
+					<li<?php echo $filterBy=='todo'?' class="actif"':'' ?>><a href="index.php?filter=todo">Todo Tasks</a></li>
+					<li<?php echo $filterBy=='done'?' class="actif"':'' ?>><a href="index.php?filter=done">Done Tasks</a></li>
 				</ul>
 				<ul id="side-foot" class="hide">
-					<li><a href="#save">Save Task</a></li>
-					<li><a href="#saveandadd">Save &amp; Add Taks</a></li>
+					<li><a href="#save" id="saveTask">Save Task</a></li>
+					<li><a href="#saveandadd" id="saveAndNew">Save &amp; Add Taks</a></li>
 				</ul>
 			</div>
 		</div>

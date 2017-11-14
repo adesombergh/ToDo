@@ -1,12 +1,23 @@
 
-datepickerDefault = new MtrDatepicker({
-  target: "startedat"
+
+let startedat = new MtrDatepicker({
+  target: "startedat",
+  disableAmPm: true
 });
-datepickerDefault2 = new MtrDatepicker({
-  target: "endedat"
+let theend = new MtrDatepicker({
+  target: "theend",
+  disableAmPm: true
 });
-let button = document.getElementById('plus');
-button.addEventListener('click',handlePlusButton);
+
+document.getElementById('saveTask').addEventListener('click',(e)=>{
+	e.preventDefault();
+	document.getElementById('task_created_on').value = startedat.values.timestamp/1000;
+	document.getElementById('task_end').value = theend.values.timestamp/1000;
+
+	document.getElementById("addform").submit();
+});
+
+document.getElementById('plus').addEventListener('click',handlePlusButton);
 
 let sidePaneState = "closed";
 
@@ -23,11 +34,14 @@ for (var i = 0; i < taskButtons.length; i++) {
 function handleTaskButton(e){
 	e.preventDefault();
 	let detail = document.querySelector("#" + this.dataset.toggle + " .details");
+	let actions = document.querySelector("#" + this.dataset.toggle + " .task-actions");
 	if (this.dataset.opened=="false") {
 		removeClass(detail,'hide');
+		removeClass(actions,'hide');
 		this.dataset.opened = true;
 	} else {
 		addClass(detail,'hide');
+		addClass(actions,'hide');
 		this.dataset.opened = false;
 	}
 }
