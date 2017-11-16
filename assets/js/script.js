@@ -1,40 +1,52 @@
-let mainPane = document.getElementById('main-pane');
-let sidePane = document.getElementById('side-pane');
-let mainFoot = document.getElementById('main-foot');
-let sideFoot = document.getElementById('side-foot');
+// Object AJAX
+class Ajax {
+	constructor(){
+		this.ajaxUrl = '/Todo/core/request.php';
+	}
+	// Method Post : action sur la bdd, callback tjr le même: Si Ok, relance l'app!
+	post(request){
+		return this.connect(request,'POST');
+	}
+	// Method Get : lecture base de donné
+	get(){
+		return this.connect('','GET');
+	}
+	// Method Connect : Execute un GET ou un POST.
+	connect(request,method){
+		var ajax = new XMLHttpRequest();
+		ajax.open(method, this.ajaxUrl, true);
+		if (method=='POST') ajax.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+		ajax.send(request);
+		ajax.onreadystatechange = function() {
+			if (ajax.readyState == 4 && ajax.status == 200) {
+				// CallBack App.LoadTasks
+				// @param la réponse du serveur en format Ajax
+				 App.loadTasks(JSON.parse(this.responseText));
+			}
+		};
+	}
+}
 
 
 App = {
-	config : {
-		ajaxUrl : '/Todo/core/request.php'
-	},
 	data : [],
-
+	db: new Ajax('/Todo/core/request.php'),
+	filter: '', // 'todo' / 'done' / 'late' / ''
 	record(data){
 		this.data = data.tasks;
 	},
-
-	getTasks(){
-		var ajax = new XMLHttpRequest();
-		ajax.open("GET", this.config.ajaxUrl, true);
-		ajax.send();
-		ajax.onreadystatechange = function() {
-			if (ajax.readyState == 4 && ajax.status == 200) {
-				App.record(JSON.parse(this.responseText));
-				App.renderTasks();
-			}
-		};
-	},
-
 	renderTasks(){
 		// Le template contient l'html de base de chaque Item de la Liste.
 		let template = document.querySelector('.template');
 		//Boucle dans toutes les tâches
 		for (var i = 0; i < this.data.length; i++) {
-			// Pour faciliter
+			// Pour faciliter, on appelle la variable: task.
 			let task = this.data[i];
 			// Determine la section de la tache actuelle
 			let section = task.task_ended_on==null?'todo':(task.task_ended_on<task.task_end?'done':'late');
+			if (this.filter != section && this.filter != '') {
+				continue;
+			}
 			// Clone le template et enlève la class template
 			let clone = template.cloneNode(true);
 			clone.classList.remove('template');
@@ -59,48 +71,17 @@ App = {
 			// Ajout Description
 			clone.querySelector('.desc').innerHTML = task.task_description;
 			// Ajout Date de Création
-			clone.querySelector('.created').innerHTML = this.pretty(task.task_created_on);
+			clone.querySelector('.created').innerHTML = this.pretty_date(task.task_created_on);
 			if (task.task_ended_on) {
-				clone.querySelector('.completed').innerHTML = " - End time: "+ this.pretty(task.task_ended_on);
+				clone.querySelector('.completed').innerHTML = " - End time: "+ this.pretty_date(task.task_ended_on);
 			}			
 			// Ajout du clone dans la section voulu
 			document.getElementById(section).appendChild(clone);
 		}
 	},
-	pretty(timestamp){
+	pretty_date(timestamp){
 		var date = new Date(timestamp*1000);
 		return date.getDate()+"/"+date.getMonth()+"/"+date.getFullYear()+" "+date.getHours()+":"+date.getMinutes();
-	},
-	startDatePickers(){
-		this.thestart = new DateTimePicker('#thestart', {
-			timePicker: true,
-			timePickerFormat:24,
-			format: 'd/m/Y à H:i',
-			allowEmpty:true,
-			minuteIncrement:15,
-			positionOffset: {x:0,y:-300}
-		});
-		this.theend = new DateTimePicker('#theend', {
-			timePicker: true,
-			timePickerFormat:24,
-			format: 'd/m/Y à H:i',
-			allowEmpty:true,
-			minuteIncrement:15,
-			positionOffset: {x:0,y:-300}
-		});
-
-	},
-
-	startPageBehaviors(){
-		this.formSubmitter();
-		this.eventHandlers();
-	},
-	eventHandlers(){
-		// CLICK SUR LE BOUTON (+)
-		document.getElementById('plus').addEventListener('click',function(e){
-			e.preventDefault();
-			App.toggleSidePane();
-		});
 	},
 	onTaskEditClick(e){
 		// CLICK SUR LE BOUTON EDIT
@@ -116,53 +97,18 @@ App = {
 		App.theend.setDate(task.task_end*1000);
 		App.toggleSidePane();
 	},
-	toggleSidePane(){
-		sidePane.classList.toggle('hide');
-		sideFoot.classList.toggle('hide');
-		mainPane.classList.toggle('hide');
-		mainFoot.classList.toggle('hide');
-		document.querySelector('.add-button').classList.toggle('chosen');
-	},
 	onTaskDeleteClick(e){
 		// CLICK SUR LE BOUTON DELETE
 		e.preventDefault();
-		var ajax = new XMLHttpRequest();
-		ajax.open("POST", App.config.ajaxUrl, true);
-		ajax.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
 		var req = "action=delete&task_id="+this.dataset.delete.split('ti')[1];
-		ajax.send(req);
-		var task = this;
-		ajax.onreadystatechange = function() {
-		  	if (ajax.readyState == 4 && ajax.status == 200) {
-				var data = JSON.parse(ajax.responseText);
-				if (data.reaction == "success") {
-					console.log("Deletion Suceeded");
-					App.reload(data);
-				}
-			}
-		}
+		App.db.post(req);
 	},
 	onTaskCompleteClick(e){
-		// CLICK SUR LE BOUTON DELETE
 		e.preventDefault();
-		var ajax = new XMLHttpRequest();
-		ajax.open("POST", App.config.ajaxUrl, true);
-		ajax.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
 		var req = "action=complete&task_id="+this.dataset.complete.split('ti')[1];
-		ajax.send(req);
-		var task = this;
-		ajax.onreadystatechange = function() {
-		  	if (ajax.readyState == 4 && ajax.status == 200) {
-				var data = JSON.parse(ajax.responseText);
-				if (data.reaction == "success") {
-					console.log("Task Completed");
-					App.reload(data);
-				}
-			}
-		}
+		App.db.post(req);
 	},
-	reload(data){
-		console.log(data);
+	loadTasks(data){
 		App.record(data);
 		App.clearTasks();
 		App.renderTasks();
@@ -182,7 +128,7 @@ App = {
 		detail.classList.toggle('hide');
 		actions.classList.toggle('hide');
 	},
-	formSubmitter(){
+	onFormSubmit(){
 		document.getElementById('saveTask').addEventListener('click',(e)=>{
 			e.preventDefault();
 			let title = document.getElementById('title').value;
@@ -192,28 +138,58 @@ App = {
 			let id = document.getElementById('task_id').value;
 			let action = id ? 'update' : 'add';
 
-			var ajax = new XMLHttpRequest();
-			ajax.open("POST", this.config.ajaxUrl, true);
-			ajax.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+
 			var req = "action="+action+"&task_title="+title+"&task_description="+description+"&task_created_on="+ start +"&task_end="+ deadline;
 			if (id) req += ("&task_id="+id)
-
-			ajax.send(req);
-			ajax.onreadystatechange = function() {
-			  	if (ajax.readyState == 4 && ajax.status == 200) {
-					var data = JSON.parse(ajax.responseText);
-					if (data.reaction == "success") {
-						App.reload(data);
-					}
-				}
-			}
+			App.db.post(req);
 			App.toggleSidePane();
 		});
 	},
+	toggleSidePane(){
+		document.getElementById('side-pane').classList.toggle('hide');
+		document.getElementById('side-foot').classList.toggle('hide');
+		document.getElementById('main-pane').classList.toggle('hide');
+		document.getElementById('main-foot').classList.toggle('hide');
+		document.querySelector('.add-button').classList.toggle('chosen');
+	},
 	start(){
-		this.getTasks();
-		this.startPageBehaviors();
-		this.startDatePickers();
+		// Premier chargement des donnees.
+		this.db.get();
+		// Premier chargement des donnees.
+		this.onFormSubmit();
+		// CLICK SUR LE BOUTON (+)
+		document.getElementById('plus').addEventListener('click',function(e){
+			e.preventDefault();
+			App.toggleSidePane();
+		});
+		// CLICK SUR LES FILTRES 
+		filters = document.getElementsByClassName('filters');
+		for (var i = 0; i < filters.length; i++) {
+			filters[i].addEventListener('click',function(e){
+				e.preventDefault();
+				App.filter = this.dataset.filter;
+				App.clearTasks();
+				App.renderTasks();
+			});
+
+		}
+		// INIT des Date Pickers:
+		this.thestart = new DateTimePicker('#thestart', {
+			timePicker: true,
+			timePickerFormat:24,
+			format: 'd/m/Y à H:i',
+			allowEmpty:true,
+			minuteIncrement:15,
+			positionOffset: {x:0,y:-300}
+		});
+		this.theend = new DateTimePicker('#theend', {
+			timePicker: true,
+			timePickerFormat:24,
+			format: 'd/m/Y à H:i',
+			allowEmpty:true,
+			minuteIncrement:15,
+			positionOffset: {x:0,y:-300}
+		});
 	}
 }
 

@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html lang="fr">
 	<head>
-		<!-- Required meta tags -->
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 		<title>ToDo List</title>
@@ -66,9 +65,9 @@
 			</div>
 			<div class="main-footer">
 				<ul id="main-foot">
-					<li><a href="index.php">All tasks</a></li>
-					<li><a href="index.php?filter=todo">Todo Tasks</a></li>
-					<li><a href="index.php?filter=done">Done Tasks</a></li>
+					<li><a class="filters" href="#" data-filter="">All tasks</a></li>
+					<li><a class="filters" href="#" data-filter="todo">Todo Tasks</a></li>
+					<li><a class="filters" href="#" data-filter="done">Done Tasks</a></li>
 				</ul>
 				<ul id="side-foot" class="hide">
 					<li><a href="#save" id="saveTask">Save Task</a></li>
