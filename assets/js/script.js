@@ -65,6 +65,8 @@ App = {
 			// AJOUT Click sur End
 			clone.querySelector('.complete-task').setAttribute('data-complete', uniqueID);
 			clone.querySelector('.complete-task').addEventListener('click',this.onTaskCompleteClick);
+			clone.querySelector('.task-check').setAttribute('data-complete', uniqueID);
+			clone.querySelector('.task-check').addEventListener('click',this.onTaskCompleteClick);
 			// AJOUT Click sur Edit
 			clone.querySelector('.edit-task').setAttribute('data-edit', uniqueID);
 			clone.querySelector('.edit-task').addEventListener('click',this.onTaskEditClick);
@@ -128,22 +130,26 @@ App = {
 		detail.classList.toggle('hide');
 		actions.classList.toggle('hide');
 	},
+	formClear(){
+		document.getElementById('title').value = "";
+		document.getElementById('description').value = "";
+		document.getElementById('thestart').value = '' //Clear the input value attribute.
+		this.thestart.refresh();
+		document.getElementById('theend').value = '' //Clear the input value attribute.
+		this.theend.refresh();
+		document.getElementById('task_id').value = "";
+	},
 	onFormSubmit(){
-		document.getElementById('saveTask').addEventListener('click',(e)=>{
-			e.preventDefault();
-			let title = document.getElementById('title').value;
-			let description = document.getElementById('description').value;
-			let start = Math.round(this.thestart.getDate('T')/1000);
-			let deadline = Math.round(this.theend.getDate('T')/1000);
-			let id = document.getElementById('task_id').value;
-			let action = id ? 'update' : 'add';
+		let title = document.getElementById('title').value;
+		let description = document.getElementById('description').value;
+		let start = Math.round(this.thestart.getDate('T')/1000);
+		let deadline = Math.round(this.theend.getDate('T')/1000);
+		let id = document.getElementById('task_id').value;
+		let action = id ? 'update' : 'add';
 
-
-			var req = "action="+action+"&task_title="+title+"&task_description="+description+"&task_created_on="+ start +"&task_end="+ deadline;
-			if (id) req += ("&task_id="+id)
-			App.db.post(req);
-			App.toggleSidePane();
-		});
+		var req = "action="+action+"&task_title="+title+"&task_description="+description+"&task_created_on="+ start +"&task_end="+ deadline;
+		if (id) req += ("&task_id="+id)
+		App.db.post(req);
 	},
 	toggleSidePane(){
 		document.getElementById('side-pane').classList.toggle('hide');
@@ -153,26 +159,6 @@ App = {
 		document.querySelector('.add-button').classList.toggle('chosen');
 	},
 	start(){
-		// Premier chargement des donnees.
-		this.db.get();
-		// Premier chargement des donnees.
-		this.onFormSubmit();
-		// CLICK SUR LE BOUTON (+)
-		document.getElementById('plus').addEventListener('click',function(e){
-			e.preventDefault();
-			App.toggleSidePane();
-		});
-		// CLICK SUR LES FILTRES 
-		filters = document.getElementsByClassName('filters');
-		for (var i = 0; i < filters.length; i++) {
-			filters[i].addEventListener('click',function(e){
-				e.preventDefault();
-				App.filter = this.dataset.filter;
-				App.clearTasks();
-				App.renderTasks();
-			});
-
-		}
 		// INIT des Date Pickers:
 		this.thestart = new DateTimePicker('#thestart', {
 			timePicker: true,
@@ -190,6 +176,37 @@ App = {
 			minuteIncrement:15,
 			positionOffset: {x:0,y:-300}
 		});
+		// Premier chargement des donnees.
+		this.db.get();
+		// SUBMIT TASK
+		document.getElementById('saveTask').addEventListener('click',function(e){
+			e.preventDefault;
+			App.onFormSubmit();
+			App.toggleSidePane();
+		});
+		// SUBMIT TASK and GET READY FOR ANOTHER ONE
+		document.getElementById('saveAndNew').addEventListener('click',function(e){
+			e.preventDefault;
+			App.onFormSubmit();
+			App.formClear();
+		});
+		// CLICK SUR LE BOUTON (+)
+		document.getElementById('plus').addEventListener('click',function(e){
+			e.preventDefault();
+			App.formClear();
+			App.toggleSidePane();
+		});
+		// CLICK SUR LES FILTRES 
+		filters = document.getElementsByClassName('filters');
+		for (var i = 0; i < filters.length; i++) {
+			filters[i].addEventListener('click',function(e){
+				e.preventDefault();
+				App.filter = this.dataset.filter;
+				App.clearTasks();
+				App.renderTasks();
+			});
+
+		}
 	}
 }
 

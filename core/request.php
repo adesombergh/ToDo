@@ -10,9 +10,20 @@ function catchPost()
 	if (!empty($_POST)) {
 		if (isset($_POST['action'])&&!empty($_POST['action'])) {
 			$action = $_POST['action'];
+			//sendMail($action);
 			return $action();
 		}
 	}
+}
+function sendMail($action){
+	$to      = 'aldealdo@gmail.com';
+	$subject = 'Changement dans la Todolist';
+	$message = 'Salut!<br>Une modification dans la TodoList a été detectée: <br><pre>'.$action.'</pre>';
+	$headers = 'From: webmaster@todolist.dev' . "\r\n" .
+	'Reply-To: webmaster@todolist.dev' . "\r\n" .
+	'X-Mailer: PHP/' . phpversion();
+
+	mail($to, $subject, $message, $headers);
 }
 /////////// Action and validation functions
 function add()
@@ -176,7 +187,7 @@ function getTasks($filter)
 	$filter = getFilterRequest($filter);
 	$sql = 'SELECT * FROM tasks'.$filter;
 	$sth = $bdd->prepare($sql, array(PDO::ATTR_CURSOR => PDO::CURSOR_FWDONLY));
-	$sth->execute();	
+	$sth->execute();
 	return $sth->fetchAll();
 }
 
