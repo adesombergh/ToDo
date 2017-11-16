@@ -32,6 +32,7 @@ App = {
 	data : [],
 	db: new Ajax('/Todo/core/request.php'),
 	filter: '', // 'todo' / 'done' / 'late' / ''
+	sortBy: 'status', // 'status' / 'date'
 	record(data){
 		this.data = data.tasks;
 	},
@@ -58,6 +59,7 @@ App = {
 			// AJOUT Text / Data-Toggle / Click AU TITRE DE CHAQUE TACHE
 			clone.querySelector('.task-name').innerHTML = task.task_title;
 			clone.querySelector('.task-name').setAttribute('data-toggle', uniqueID);
+			clone.querySelector('.task-name').classList.add(section+'-task');
 			clone.querySelector('.task-name').addEventListener('click',this.onTaskTitleClick);
 			// AJOUT Click sur Delete
 			clone.querySelector('.delete-task').setAttribute('data-delete', uniqueID);
@@ -66,6 +68,7 @@ App = {
 			clone.querySelector('.complete-task').setAttribute('data-complete', uniqueID);
 			clone.querySelector('.complete-task').addEventListener('click',this.onTaskCompleteClick);
 			clone.querySelector('.task-check').setAttribute('data-complete', uniqueID);
+			clone.querySelector('.task-check').classList.add(section+'-task');
 			clone.querySelector('.task-check').addEventListener('click',this.onTaskCompleteClick);
 			// AJOUT Click sur Edit
 			clone.querySelector('.edit-task').setAttribute('data-edit', uniqueID);
@@ -78,7 +81,11 @@ App = {
 				clone.querySelector('.completed').innerHTML = " - End time: "+ this.pretty_date(task.task_ended_on);
 			}			
 			// Ajout du clone dans la section voulu
-			document.getElementById(section).appendChild(clone);
+			if (this.sortBy == 'status') {
+				document.getElementById(section).insertBefore(clone,document.getElementById(section).firstChild);
+			} else {
+				document.getElementById('ul-by-date').insertBefore(clone,document.getElementById('ul-by-date').firstChild);
+			}
 		}
 	},
 	pretty_date(timestamp){
@@ -152,11 +159,17 @@ App = {
 		App.db.post(req);
 	},
 	toggleSidePane(){
+		document.querySelector('.sort-button').classList.toggle('hide');
+		document.querySelector('.options').classList.add('hide');
 		document.getElementById('side-pane').classList.toggle('hide');
 		document.getElementById('side-foot').classList.toggle('hide');
-		document.getElementById('main-pane').classList.toggle('hide');
 		document.getElementById('main-foot').classList.toggle('hide');
 		document.querySelector('.add-button').classList.toggle('chosen');
+	},
+	toggleSorting(sortBy){
+		this.sortBy = sortBy;
+		this.clearTasks();
+		this.renderTasks();
 	},
 	start(){
 		// INIT des Date Pickers:
@@ -196,16 +209,42 @@ App = {
 			App.formClear();
 			App.toggleSidePane();
 		});
+		// CLICK SUR CLEAR
+		document.getElementById('clear').addEventListener('click',function(e){
+			e.preventDefault();
+			App.formClear();
+		});
+		// CLICK SUR LE BOUTON SETTINGS
+		document.getElementById('settings').addEventListener('click',function(e){
+			e.preventDefault();
+			document.querySelector('.options').classList.toggle('hide');
+		});
+		// CLICK SUR l'un des sortings
+		let sortings = document.getElementsByClassName('sorting');
+		for (var i = 0; i < sortings.length; i++) {
+			sortings[i].addEventListener('click',function(e){
+				e.preventDefault();
+				for (var j = 0; j < sortings.length; j++) {
+					sortings[j].classList.remove('actif');
+				}
+				this.classList.add('actif');
+				App.toggleSorting(this.dataset.sort);
+				document.querySelector('.options').classList.toggle('hide');
+			});
+		}
 		// CLICK SUR LES FILTRES 
-		filters = document.getElementsByClassName('filters');
+		let filters = document.getElementsByClassName('filters');
 		for (var i = 0; i < filters.length; i++) {
 			filters[i].addEventListener('click',function(e){
 				e.preventDefault();
+				for (var j = 0; j < filters.length; j++) {
+					filters[j].classList.remove('actif');
+				}
+				this.classList.add('actif');
 				App.filter = this.dataset.filter;
 				App.clearTasks();
 				App.renderTasks();
 			});
-
 		}
 	}
 }

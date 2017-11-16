@@ -11,68 +11,84 @@
 	</head>
 	<body>
 		<div class="main">
-			<div class="main-header">
-				<div class="add-button"><a href="#" id="plus">+</a></div>
-				<h1>MY TODOLIST</h1>
-			</div>
-			<div id="main-pane" class="main-container">
-				<ul class="task-list" id="todo">
-				</ul>
-				<ul class="task-list" id="done">
-				</ul>
-				<ul class="task-list" id="late">
-				</ul>
-				<ul class="hide">
-					<li class="task-item template">
-						<div class="task">
-							<span class="task-heading">
-								<a href="#check" class="task-check"></a>
-								<a href="#details" data-opened="false" class="task-name"></a>
-							</span>
-							<ul class="task-actions hide">
-								<li><a href="#" class="complete-task">End Task</a></li>
-								<li><a href="#" class="edit-task">Edit</a></li>
-								<li><a href="#" class="delete-task">Delete</a></li>
-							</ul>
-						</div>
-						<div class="details hide">
-							<p class="desc"></p>
-							<p class="time-info">
-								Started on: <span class="created"></span><span class="completed"></span>
-							</p>
-						</div>
-					</li>
-				</ul>
-			</div>
-			<div id="side-pane" class="next-container hide">
-				<div class="clear">
-					<a href="#clear">Clear</a>
+			<div class="viewport">
+				<div class="main-header">
+					<div class="add-button"><a href="#" id="plus">+</a></div>
+					<h1>TODOLIST</h1>
+					<div class="sort-button"><a href="#" id="settings"><img src="assets/images/settings.png" width="30" height="30" alt=""></a></div>
+					<div class="options hide">
+						<ul>
+							<li><a href="#" class="sorting actif" data-sort="status">By Status</a></li>
+							<li><a href="#" class="sorting" data-sort="date">By Date</a></li>
+						</ul>
+					</div>
 				</div>
-				<div class="form">
-					<form action="" method="post" id="addform">
-						<input type="hidden" id="task_id" name="task_id">
-						<h3>TITLE</h3>
-						<input class="input" id="title" name="title" type="text" placeholder="My todo title">
-						<h3>DESCRIPTION</h3>
-						<textarea class="input" id="description" name="description" rows="4" placeholder="My todo description"></textarea>
-						<h3>STARTED AT</h3>
-						<input class="input" id="thestart" type="text" placeholder="Start">
-						<h3>DEADLINE</h3>
-						<input class="input" id="theend" type="text" placeholder="Start">
-					</form>
+				<div id="main-pane" class="main-container">
+					<div id="by-status">
+						<ul class="task-list" id="todo">
+						</ul>
+						<ul class="task-list" id="done">
+						</ul>
+						<ul class="task-list" id="late">
+						</ul>
+					</div>
+					<div id="by-date">
+						<ul class="task-list" id="ul-by-date">
+							
+						</ul>
+					</div>
+					<ul class="hide">
+						<li class="task-item template">
+							<div class="task">
+								<span class="task-heading">
+									<a href="#" class="task-check"></a>
+									<a href="#" data-opened="false" class="task-name"></a>
+								</span>
+								<ul class="task-actions hide">
+									<li><a href="#" class="complete-task">End Task</a></li>
+									<li><a href="#" class="edit-task">Edit</a></li>
+									<li><a href="#" class="delete-task">Delete</a></li>
+								</ul>
+							</div>
+							<div class="details hide">
+								<p class="desc"></p>
+								<p class="time-info">
+									Started on: <span class="created"></span><span class="completed"></span>
+								</p>
+							</div>
+						</li>
+					</ul>
 				</div>
+				<div id="side-pane" class="next-container hide">
+					<div class="clear">
+						<a href="#" id="clear">Clear</a>
+					</div>
+					<div class="form">
+						<form action="" method="post" id="addform">
+							<input type="hidden" id="task_id" name="task_id">
+							<h3>TITLE</h3>
+							<input class="input" id="title" name="title" type="text" placeholder="My todo title">
+							<h3>DESCRIPTION</h3>
+							<textarea class="input" id="description" name="description" rows="4" placeholder="My todo description"></textarea>
+							<h3>STARTED AT</h3>
+							<input class="input" id="thestart" type="text" placeholder="Start">
+							<h3>DEADLINE</h3>
+							<input class="input" id="theend" type="text" placeholder="Deadline">
+						</form>
+					</div>
 
-			</div>
-			<div class="main-footer">
-				<ul id="main-foot">
-					<li><a class="filters" href="#" data-filter="">All tasks</a></li>
-					<li><a class="filters" href="#" data-filter="todo">Todo Tasks</a></li>
-					<li><a class="filters" href="#" data-filter="done">Done Tasks</a></li>
-				</ul>
-				<ul id="side-foot" class="hide">
-					<li><a href="#save" id="saveTask">Save Task</a></li>
-					<li><a href="#saveandadd" id="saveAndNew">Save &amp; Add Taks</a></li>
-				</ul>
+				</div>
+				<div class="main-footer">
+					<ul id="main-foot">
+						<li><a class="filters actif" href="#" data-filter="">All tasks</a></li>
+						<li><a class="filters" href="#" data-filter="todo">Todo Tasks</a></li>
+						<li><a class="filters" href="#" data-filter="done">Done Tasks</a></li>
+					</ul>
+					<ul id="side-foot" class="hide">
+						<li><a href="#" id="saveTask">Save Task</a></li>
+						<li><a href="#" id="saveAndNew">Save &amp; Add Taks</a></li>
+					</ul>
+				</div>
 			</div>
 		</div>
 

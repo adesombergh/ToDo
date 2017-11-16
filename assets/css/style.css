@@ -2,9 +2,9 @@
    v2.0 | 20110126
    License: none (public domain)
 */
-html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td,article,aside,canvas,details,embed,figure,figcaption,footer,header,hgroup,menu,nav,output,ruby,section,summary,time,mark,audio,video{margin:0;padding:0;border:0;font-size:100%;font:inherit;vertical-align:baseline;}/*HTML5display-roleresetforolderbrowsers*/article,aside,details,figcaption,figure,footer,header,hgroup,menu,nav,section{display:block;}body{line-height:1;}ol,ul{list-style:none;}blockquote,q{quotes:none;}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none;}table{border-collapse:collapse;border-spacing:0;}
+html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td,article,aside,canvas,details,embed,figure,figcaption,footer,header,hgroup,menu,nav,output,section,summary,time,mark,audio,video{margin:0;padding:0;border:0;font-size:100%;font:inherit;vertical-align:baseline;}/*HTML5display-roleresetforolderbrowsers*/article,aside,details,figcaption,figure,footer,header,hgroup,menu,nav,section{display:block;}body{line-height:1;}ol,ul{list-style:none;}blockquote,q{quotes:none;}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none;}table{border-collapse:collapse;border-spacing:0;}
 
-html, body, a, p, ul, li {
+html, body, a, p, ul, li, h1, h2, h3 {
 	font-family: 'Raleway', sans-serif;
 	color: #BBB;
 	text-decoration: none;
@@ -16,30 +16,59 @@ h1 {
 
 .main {
 	width: 100%;
+	height: 100%;
+	background-color: #f0f0f0;
+	position: absolute;
+}
+
+.viewport {
+	height: 100%;
+	width: 400px;
+	box-sizing: border-box;
+	position: absolute;
+	margin: 0 auto;
+	left: 50%;
+	transform: translateX(-50%);
+	border-radius: 20px;
+	box-shadow: 5px 5px 5px rgba(0,0,0,.3);
 }
 .main-header, .main-footer {
 	padding: 30px;
 	box-sizing: border-box;
 }
 .main-header {
+	background: rgba(255,255,255,.9);
 	height: 100px;
 	width: 100%;
 	position: absolute;
 	top: 0px;
+	border-top-left-radius: 20px;
+	border-top-right-radius: 20px;
+	z-index: 7777;
 }
 .main-container, .next-container {
 	width: 100%;
 	position: absolute;
-	top: 100px;
+	top: 0px;
 	bottom: 0px;
 	overflow: auto;
+	padding-left: 30px;
+	box-sizing: border-box;
+	padding: 0 25px;
+	padding-top: 120px;
+	padding-bottom: 75px;
+	background-color: #fdfdfd;
+	border-radius: 20px;
 }
+
 .main-footer {
 	height: 75px;
 	width: 100%;
 	position: absolute;
 	bottom: 0px;
-	background: #fff;
+	background: rgba(255,255,255,.9);
+	border-bottom-right-radius: 20px;
+	border-bottom-left-radius: 20px;
 }
 .hide {
 	display: none;
@@ -66,7 +95,31 @@ h1 {
 	text-decoration: none;
 	font-size: 35px;
 }
-
+.options {
+	width: 100%;
+	height: 75px;
+	bottom: -75px;
+	padding: 30px;
+	background-color: rgba(0,0,0,.7);
+    box-sizing: border-box;
+	position: absolute; 
+	left:0;
+	z-index: 8880;
+	border-bottom: 1px solid #bbb;
+}
+.sort-button {
+	width: 30px;
+	height: 30px;
+    box-sizing: border-box;
+	position: absolute; 
+	right:20px;
+	bottom: -51px;
+	z-index: 8888;
+}
+.sort-button img {
+	width: 30px;
+	height: 30px;
+}
 .add-button.chosen {
     -ms-transform: rotate(45deg); /* IE 9 */
     -webkit-transform: rotate(45deg); /* Safari */
@@ -99,10 +152,6 @@ h1 {
 	    transform: rotate(45deg);
     }
 }
-
-.main-container, .next-container {
-	padding: 20px 0 75px;
-}
 .main-header, .details {
 	border-bottom: 1px solid #bbb;
 }
@@ -117,12 +166,18 @@ h1 {
 	display: inline;
 	margin: 0 10px;
 }
-.main-footer ul li.actif {
-	display: inline;
-	margin: 0 10px;
+ul li a.actif {
 	text-decoration: underline;
 }
 
+
+.options ul {
+	text-align: center;
+}
+.options ul li {
+	display: inline;
+	margin: 0 10px;
+}
 
 
 /***********  TASK ITEMS **************/
@@ -147,13 +202,13 @@ h1 {
     background-position: 0 0;
 	position: absolute;
 }
-#done .task-check {
+.task-check.done-task {
 	background-image: url('../images/check.png');
 }
-#late .task-check {
+.task-check.late-task {
 	background-image: url('../images/late.png');
 }
-#todo .task-check {
+.task-check.todo-task {
 	background-image: url('../images/uncheck.png');
 }
 .task-name {
@@ -168,13 +223,13 @@ h1 {
 	display: inline-block;
 }
 
-#late .task-name {
+.task-name.late-task {
     text-decoration: line-through;
     text-decoration-color: red;
 }
-#done .task-name {
+.task-name.done-task {
     text-decoration: line-through;
-    text-decoration-color: #ddd;
+    text-decoration-color: #000;
 }
 
 /***********  TASK DETAILS **************/
@@ -201,9 +256,9 @@ h1 {
 .form {
 	width: 100%;
 	box-sizing: border-box;
-	padding: 20px 40px;
 }
 .input {
+	box-sizing: border-box;
 	border: none;
 	width: 100%;
 	border-bottom: 1px solid #bbb;
