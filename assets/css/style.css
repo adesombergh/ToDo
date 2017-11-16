@@ -23,7 +23,7 @@ h1 {
 
 .viewport {
 	height: 100%;
-	width: 400px;
+	width: 500px;
 	box-sizing: border-box;
 	position: absolute;
 	margin: 0 auto;
@@ -31,20 +31,21 @@ h1 {
 	transform: translateX(-50%);
 	border-radius: 20px;
 	box-shadow: 5px 5px 5px rgba(0,0,0,.3);
+	overflow: hidden;
 }
 .main-header, .main-footer {
 	padding: 30px;
 	box-sizing: border-box;
 }
 .main-header {
-	background: rgba(255,255,255,.9);
+	background: #fff;
 	height: 100px;
 	width: 100%;
 	position: absolute;
 	top: 0px;
 	border-top-left-radius: 20px;
 	border-top-right-radius: 20px;
-	z-index: 7777;
+	z-index: 9999;
 }
 .main-container, .next-container {
 	width: 100%;
@@ -60,13 +61,16 @@ h1 {
 	background-color: #fdfdfd;
 	border-radius: 20px;
 }
+.next-container {
+	left:100%;
+}
 
 .main-footer {
 	height: 75px;
 	width: 100%;
 	position: absolute;
 	bottom: 0px;
-	background: rgba(255,255,255,.9);
+	background: #fff;
 	border-bottom-right-radius: 20px;
 	border-bottom-left-radius: 20px;
 }
@@ -75,64 +79,67 @@ h1 {
 }
 
 .add-button {
-	width: 40px;
-	height: 40px;
-	border: 2px solid #777;
     box-sizing: border-box;
-	border-radius: 20px;
 	position: relative; 
 	float:right;
-	box-shadow: 3px 3px 3px rgba(0,0,0,.2);
+	top: 3px;
+	right: 7px;
     animation-name: exampletwo;
     animation-duration: 1s;
 }
-.add-button a {
-	position: absolute;
-	top: 50%;
-	left: 50%;
-	transform: translateX(-50%) translateY(-50%);
-	color: #777;
-	text-decoration: none;
-	font-size: 35px;
+#plus svg {
+	fill: #999;
+}
+#plus svg:hover {
+	fill: #000;
 }
 .options {
+	color:#fff;
 	width: 100%;
 	height: 75px;
-	bottom: -75px;
+	top: 0px;
 	padding: 30px;
 	background-color: rgba(0,0,0,.7);
     box-sizing: border-box;
 	position: absolute; 
 	left:0;
-	z-index: 8880;
+	z-index: 5555;
 	border-bottom: 1px solid #bbb;
 }
+.options a {
+	color: #fff;
+}
 .sort-button {
-	width: 30px;
-	height: 30px;
+	width: 20px;
+	height: 20px;
     box-sizing: border-box;
 	position: absolute; 
-	right:20px;
-	bottom: -51px;
+	right: 20px;
+	bottom: -47px;
 	z-index: 8888;
 }
-.sort-button img {
-	width: 30px;
-	height: 30px;
+.sort-button svg {
+	width: 20px;
+	height: 20px;
+	fill:rgb(128,128,128);
+}
+
+.sort-button svg:hover {
+	fill: #000;
 }
 .add-button.chosen {
-    -ms-transform: rotate(45deg); /* IE 9 */
-    -webkit-transform: rotate(45deg); /* Safari */
-    transform: rotate(45deg);
+    -ms-transform: rotate(135deg); /* IE 9 */
+    -webkit-transform: rotate(135deg); /* Safari */
+    transform: rotate(135deg);
     animation-name: example;
     animation-duration: 1s;
 }
 
 @keyframes exampletwo {
     from {
-    	-ms-transform: rotate(45deg); /* IE 9 */
-	    -webkit-transform: rotate(45deg); /* Safari */
-	    transform: rotate(45deg);
+    	-ms-transform: rotate(135deg); /* IE 9 */
+	    -webkit-transform: rotate(135deg); /* Safari */
+	    transform: rotate(135deg);
 	}
     to {
 	    -ms-transform: rotate(0deg); /* IE 9 */
@@ -147,12 +154,12 @@ h1 {
 	    transform: rotate(0deg);
 	}
     to {
-    	-ms-transform: rotate(45deg); /* IE 9 */
-	    -webkit-transform: rotate(45deg); /* Safari */
-	    transform: rotate(45deg);
+    	-ms-transform: rotate(135deg); /* IE 9 */
+	    -webkit-transform: rotate(135deg); /* Safari */
+	    transform: rotate(135deg);
     }
 }
-.main-header, .details {
+.main-header {
 	border-bottom: 1px solid #bbb;
 }
 .main-footer {
@@ -195,34 +202,56 @@ ul li a.actif {
 
 }
 .task-check {
-	width: 26px;
+	width: 20px;
 	height: 20px;
 	display: inline-block;
 	background-repeat: no-repeat;
-    background-position: 0 0;
 	position: absolute;
 }
 .task-check.done-task {
-	background-image: url('../images/check.png');
+	background-image: url('../images/radio-checked.svg');
+    background-size: 20px 20px;
 }
 .task-check.late-task {
-	background-image: url('../images/late.png');
+	background-image: url('../images/radio-checked2.svg');
+    background-size: 20px 20px;
 }
 .task-check.todo-task {
-	background-image: url('../images/uncheck.png');
+	background-image: url('../images/radio-unchecked.svg');
+    background-size: 20px 20px;
 }
 .task-name {
 	font-size: 20px;
 	display: inline-block;
 	box-sizing: border-box;
-	padding-left: 40px;
+	padding-left: 30px;
 	/*border: 1px solid green;*/
 }
+.task-actions {
+	position: relative;
+}
 .task-actions li {
-	padding: 0 10px;
+	padding: 0 7px;
 	display: inline-block;
 }
-
+.task-actions li:last-child {
+	padding-right: 15px;
+}
+.task-actions svg {
+	width: 20px;
+	height: 20px;
+	fill: rgb(128,128,128);
+}
+.task-actions svg:hover {
+	fill: #000;
+}
+.mirage {
+	box-sizing: border-box;
+	background-color: #fff;
+	height: 100%;
+	width: 100%;
+	position: absolute;
+}
 .task-name.late-task {
     text-decoration: line-through;
     text-decoration-color: red;
@@ -235,6 +264,8 @@ ul li a.actif {
 /***********  TASK DETAILS **************/
 .details {
 	margin-top: 10px;
+	height: 0px;
+	overflow: hidden;
 	/*border: 1px solid green;*/
 }
 .details p {

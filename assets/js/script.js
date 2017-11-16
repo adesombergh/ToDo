@@ -33,6 +33,8 @@ App = {
 	db: new Ajax('/Todo/core/request.php'),
 	filter: '', // 'todo' / 'done' / 'late' / ''
 	sortBy: 'status', // 'status' / 'date'
+	paneStatus: "closed",
+	optionsStatus: "closed",
 	record(data){
 		this.data = data.tasks;
 	},
@@ -90,7 +92,7 @@ App = {
 	},
 	pretty_date(timestamp){
 		var date = new Date(timestamp*1000);
-		return date.getDate()+"/"+date.getMonth()+"/"+date.getFullYear()+" "+date.getHours()+":"+date.getMinutes();
+		return date.getDate()+"/"+date.getMonth()+"/"+date.getFullYear()+" "+date.getHours()+":"+(date.getMinutes()<10?'0':'') + date.getMinutes();
 	},
 	onTaskEditClick(e){
 		// CLICK SUR LE BOUTON EDIT
@@ -134,8 +136,23 @@ App = {
 		e.preventDefault();
 		let detail = document.querySelector("#" + this.dataset.toggle + " .details");
 		let actions = document.querySelector("#" + this.dataset.toggle + " .task-actions");
-		detail.classList.toggle('hide');
-		actions.classList.toggle('hide');
+
+		if ( detail.dataset.status == "hide" ) {
+			App.animate( .5, 0, 110, (n)=>{
+					detail.style.height = n+"px";
+					actions.firstElementChild.style.width = (110-n)+"%";
+			},function(){
+					actions.firstElementChild.style.display = "none";
+			});
+			detail.dataset.status = "show";
+		} else {
+			actions.firstElementChild.style.display = "block";
+			App.animate( .5, 0, 110, function(n){
+				detail.style.height = (110-n)+"px";
+					actions.firstElementChild.style.width = n+"%";
+			});
+			detail.dataset.status = "hide";
+		};
 	},
 	formClear(){
 		document.getElementById('title').value = "";
@@ -158,14 +175,57 @@ App = {
 		if (id) req += ("&task_id="+id)
 		App.db.post(req);
 	},
+	animate(duree,initial,final,animation,callback=null){
+  		var frameNb = duree * 25;
+		var t = 0;
+		var n = 0;
+
+		var projecteur = setInterval(function(){
+			if (t/frameNb > 1) {
+				typeof callback === 'function' && callback();
+				return clearInterval(projecteur);
+			};
+			n = App.easeInOutQuad(t/frameNb) * final;
+			animation(n)
+			t++;
+		},25);
+	},
 	toggleSidePane(){
+		if ( App.paneStatus == "closed" ) {
+			App.paneStatus = "opened";
+			App.animate( 1, 0, 100, function(n){
+				document.querySelector('.next-container').style.left = (100-n)+"%";
+			});
+		} else {
+			App.paneStatus = "closed";
+			App.animate( 1, 0, 100, function(n){
+				document.querySelector('.next-container').style.left = n+"%";
+			});
+		}
 		document.querySelector('.sort-button').classList.toggle('hide');
-		document.querySelector('.options').classList.add('hide');
-		document.getElementById('side-pane').classList.toggle('hide');
+		//document.getElementById('side-pane').classList.toggle('hide');
 		document.getElementById('side-foot').classList.toggle('hide');
 		document.getElementById('main-foot').classList.toggle('hide');
 		document.querySelector('.add-button').classList.toggle('chosen');
 	},
+	toggleOptionsPane(){
+		if ( this.optionsStatus == "closed" ) {
+			this.animate( .5, 0, 100, function(n){
+				document.querySelector('.options').style.top = n+"px";
+				bit = Math.round((n+50)*255/100);
+				document.querySelector('.sort-button svg').style.fill = 'rgb('+bit+','+bit+','+bit+')';
+			});
+			this.optionsStatus = "opened";
+		} else {
+			this.animate( .5, 0, 100, function(n){
+				document.querySelector('.options').style.top = (100-n)+"px";
+				bit = Math.round((150-n)*255/100);
+				document.querySelector('.sort-button svg').style.fill = 'rgb('+bit+','+bit+','+bit+')';
+			});
+			this.optionsStatus = "closed";
+		}
+	},
+	easeInOutQuad: function (t) { return t<.5 ? 2*t*t : -1+(4-2*t)*t },
 	toggleSorting(sortBy){
 		this.sortBy = sortBy;
 		this.clearTasks();
@@ -195,7 +255,10 @@ App = {
 		document.getElementById('saveTask').addEventListener('click',function(e){
 			e.preventDefault;
 			App.onFormSubmit();
-			App.toggleSidePane();
+			App.paneStatus = "closed";
+			App.animate( .5, 0, 100, function(n){
+				document.querySelector('.next-container').style.left = n+"%";
+			});
 		});
 		// SUBMIT TASK and GET READY FOR ANOTHER ONE
 		document.getElementById('saveAndNew').addEventListener('click',function(e){
@@ -207,6 +270,7 @@ App = {
 		document.getElementById('plus').addEventListener('click',function(e){
 			e.preventDefault();
 			App.formClear();
+			if (App.optionsStatus=="opened") App.toggleOptionsPane();
 			App.toggleSidePane();
 		});
 		// CLICK SUR CLEAR
@@ -217,7 +281,7 @@ App = {
 		// CLICK SUR LE BOUTON SETTINGS
 		document.getElementById('settings').addEventListener('click',function(e){
 			e.preventDefault();
-			document.querySelector('.options').classList.toggle('hide');
+			App.toggleOptionsPane();
 		});
 		// CLICK SUR l'un des sortings
 		let sortings = document.getElementsByClassName('sorting');
@@ -229,7 +293,8 @@ App = {
 				}
 				this.classList.add('actif');
 				App.toggleSorting(this.dataset.sort);
-				document.querySelector('.options').classList.toggle('hide');
+				App.toggleOptionsPane();
+				App.optionsStatus = "closed";
 			});
 		}
 		// CLICK SUR LES FILTRES 
