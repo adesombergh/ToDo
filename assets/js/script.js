@@ -66,8 +66,9 @@ App = {
 			// AJOUT Click sur Delete
 			clone.querySelector('.delete-task').setAttribute('data-delete', uniqueID);
 			clone.querySelector('.delete-task').addEventListener('click',this.onTaskDeleteClick);
-			// AJOUT Click sur End
+			// AJOUT Click sur FINISHED TASK
 			clone.querySelector('.complete-task').setAttribute('data-complete', uniqueID);
+			clone.querySelector('.complete-task').classList.add(section+'-task');
 			clone.querySelector('.complete-task').addEventListener('click',this.onTaskCompleteClick);
 			clone.querySelector('.task-check').setAttribute('data-complete', uniqueID);
 			clone.querySelector('.task-check').classList.add(section+'-task');
@@ -101,9 +102,10 @@ App = {
 				var task = App.data[i];
 			}
 		}
-		sidePane.querySelector('#task_id').value = task.task_id;
-		sidePane.querySelector('#title').value = task.task_title;
-		sidePane.querySelector('#description').value = task.task_description;
+		console.log(task);
+		document.querySelector('.next-container').querySelector('#task_id').value = task.task_id;
+		document.querySelector('.next-container').querySelector('#title').value = task.task_title;
+		document.querySelector('.next-container').querySelector('#description').value = task.task_description;
 		App.thestart.setDate(task.task_created_on*1000);
 		App.theend.setDate(task.task_end*1000);
 		App.toggleSidePane();
@@ -119,7 +121,7 @@ App = {
 		id = this.dataset.complete.split('ti')[1];
 		if(this.classList.contains('todo-task')){
 			var req = "action=complete&task_id="+id;
-		}else{
+		} else {
 			var req = "action=uncomplete&task_id="+id;
 		};
 		App.db.post(req);
