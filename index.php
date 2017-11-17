@@ -85,9 +85,9 @@
 						<li><a class="filters" href="#" data-filter="todo">Todo Tasks</a></li>
 						<li><a class="filters" href="#" data-filter="done">Done Tasks</a></li>
 					</ul>
-					<ul id="side-foot" class="hide">
-						<li><a href="#" id="saveTask">Save Task</a></li>
-						<li><a href="#" id="saveAndNew">Save &amp; Add Taks</a></li>
+					<ul id="side-foot" class="">
+						<li><a href="#" id="saveTask">Add Task</a></li>
+						<li><a href="#" id="saveAndNew">Add &amp; Create</a></li>
 					</ul>
 				</div>
 			</div>

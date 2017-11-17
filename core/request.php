@@ -11,7 +11,7 @@ function catchPost()
 		if (isset($_POST['action'])&&!empty($_POST['action'])) {
 			$action = $_POST['action'];
 			//sendMail($action);
-			return $action();
+			if (function_exists($action())) $action();
 		}
 	}
 }
@@ -65,6 +65,16 @@ function complete()
 	if (isset($_POST['task_id'])) {
 		try {
 			return completeTask();
+		} catch (Exception $e) {
+			return $e;
+		}
+	 }
+}
+function uncomplete()
+{
+	if (isset($_POST['task_id'])) {
+		try {
+			return unCompleteTask();
 		} catch (Exception $e) {
 			return $e;
 		}
@@ -131,6 +141,20 @@ function completeTask()
 		$sth->execute(array(
 			"id" => $_POST['task_id'],
 			"finished" => time()
+		));
+	} catch (Exception $e) {
+		return $e;
+	}
+	return "success";
+}
+function unCompleteTask()
+{
+	global $bdd;
+	$sql = "UPDATE tasks SET `task_ended_on`=null WHERE `task_id` = :id;";
+	$sth = $bdd->prepare($sql);
+	try {
+		$sth->execute(array(
+			"id" => $_POST['task_id'],
 		));
 	} catch (Exception $e) {
 		return $e;

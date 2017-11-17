@@ -2,15 +2,15 @@
 class Ajax {
 	constructor(){
 		this.ajaxUrl = '/Todo/core/request.php';
-	}
+	};
 	// Method Post : action sur la bdd, callback tjr le même: Si Ok, relance l'app!
 	post(request){
 		return this.connect(request,'POST');
-	}
+	};
 	// Method Get : lecture base de donné
 	get(){
 		return this.connect('','GET');
-	}
+	};
 	// Method Connect : Execute un GET ou un POST.
 	connect(request,method){
 		var ajax = new XMLHttpRequest();
@@ -24,7 +24,7 @@ class Ajax {
 				 App.loadTasks(JSON.parse(this.responseText));
 			}
 		};
-	}
+	};
 }
 
 
@@ -116,7 +116,12 @@ App = {
 	},
 	onTaskCompleteClick(e){
 		e.preventDefault();
-		var req = "action=complete&task_id="+this.dataset.complete.split('ti')[1];
+		id = this.dataset.complete.split('ti')[1];
+		if(this.classList.contains('todo-task')){
+			var req = "action=complete&task_id="+id;
+		}else{
+			var req = "action=uncomplete&task_id="+id;
+		};
 		App.db.post(req);
 	},
 	loadTasks(data){
@@ -195,17 +200,22 @@ App = {
 			App.paneStatus = "opened";
 			App.animate( 1, 0, 100, function(n){
 				document.querySelector('.next-container').style.left = (100-n)+"%";
+				document.querySelector('.sort-button').style.right = ((50-n)*40/100)+"px";
+				document.getElementById('side-foot').style.left = (n-100)+"%";
+				document.getElementById('main-foot').style.left = n+"%";
 			});
 		} else {
 			App.paneStatus = "closed";
 			App.animate( 1, 0, 100, function(n){
 				document.querySelector('.next-container').style.left = n+"%";
+				document.querySelector('.sort-button').style.right = (-(50-n)*40/100)+"px";
+				document.getElementById('side-foot').style.left = (-n)+"%";
+				document.getElementById('main-foot').style.left = (100-n)+"%";
 			});
 		}
-		document.querySelector('.sort-button').classList.toggle('hide');
-		//document.getElementById('side-pane').classList.toggle('hide');
-		document.getElementById('side-foot').classList.toggle('hide');
-		document.getElementById('main-foot').classList.toggle('hide');
+
+		// document.getElementById('side-foot').classList.toggle('hide');
+		// document.getElementById('main-foot').classList.toggle('hide');
 		document.querySelector('.add-button').classList.toggle('chosen');
 	},
 	toggleOptionsPane(){

@@ -81,6 +81,22 @@ h1 {
 	border-bottom-right-radius: 20px;
 	border-bottom-left-radius: 20px;
 }
+.main-footer ul {
+	position: absolute;
+	width: 100%;
+	box-sizing: border-box;
+	left: 0;
+}
+#side-foot{
+left: -100%;
+}
+#side-foot a {
+	border: 1px solid #00d1b2;
+	color: #00d1b2;
+	border-radius: 4px;
+	padding: 5px 10px;
+	font-weight: 600;
+}
 .hide {
 	display: none;
 }
@@ -254,7 +270,7 @@ ul li a.actif {
 }
 .mirage {
 	box-sizing: border-box;
-	background-color: #fff;
+	background-color: #fdfdfd;
 	height: 100%;
 	width: 100%;
 	position: absolute;
